@@ -10,14 +10,18 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import jm.JMC;
 
 import java.io.File;
 import java.io.IOException;
+
+
+//TODO: pretty up code
 
 public class MyApp extends Application {
 
@@ -34,8 +38,8 @@ public class MyApp extends Application {
 
         stage.setTitle("MIDI Generator");
         stage.initStyle(StageStyle.DECORATED);
-        stage.setMinHeight(400);
-        stage.setMinWidth(500);
+        stage.setMinHeight(500);
+        stage.setMinWidth(600);
 
         //Buttons and borderpanes
         BorderPane br = new BorderPane();
@@ -83,18 +87,18 @@ public class MyApp extends Application {
 
 
         //-------------- BUTTON SCALE
-        MenuItem menuItemcsm = new MenuItem("C# minor");
-        MenuItem menuItemcm = new MenuItem("C minor");
-        MenuItem menuItemdm = new MenuItem("D minor");
-        MenuItem menuItemdsm = new MenuItem("D# minor");
-        MenuItem menuItemem = new MenuItem("E minor");
-        MenuItem menuItemfm = new MenuItem("F minor");
-        MenuItem menuItemfsm = new MenuItem("F# minor");
-        MenuItem menuItemgm = new MenuItem("G minor");
-        MenuItem menuItemgsm = new MenuItem("G# minor");
-        MenuItem menuItemam = new MenuItem("A minor");
-        MenuItem menuItemasm = new MenuItem("A# minor");
-        MenuItem menuItembm = new MenuItem("B minor");
+        MenuItem menuItemcsm = new MenuItem("C#");
+        MenuItem menuItemcm = new MenuItem("C");
+        MenuItem menuItemdm = new MenuItem("D");
+        MenuItem menuItemdsm = new MenuItem("D#");
+        MenuItem menuItemem = new MenuItem("E");
+        MenuItem menuItemfm = new MenuItem("F");
+        MenuItem menuItemfsm = new MenuItem("F#");
+        MenuItem menuItemgm = new MenuItem("G");
+        MenuItem menuItemgsm = new MenuItem("G#");
+        MenuItem menuItemam = new MenuItem("A");
+        MenuItem menuItemasm = new MenuItem("A#");
+        MenuItem menuItembm = new MenuItem("B");
         MenuButton scale = new MenuButton("Scale",null, menuItemcm, menuItemcsm, menuItemdm, menuItemdsm, menuItemem,
                 menuItemfm, menuItemfsm, menuItemgm, menuItemgsm, menuItemam, menuItemasm, menuItembm);
 
@@ -102,7 +106,7 @@ public class MyApp extends Application {
             @Override
             public void handle(ActionEvent event) {
                 midi.setScale("c_m");
-                scale.setText("C minor");
+                scale.setText("C");
             }
         });
 
@@ -110,7 +114,7 @@ public class MyApp extends Application {
             @Override
             public void handle(ActionEvent event) {
                 midi.setScale("csharp_m");
-                scale.setText("C# minor");
+                scale.setText("C#");
             }
         });
 
@@ -118,14 +122,14 @@ public class MyApp extends Application {
             @Override
             public void handle(ActionEvent event) {
                 midi.setScale("d_m");
-                scale.setText("D minor");
+                scale.setText("D");
             }
         });
         menuItemdsm.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 midi.setScale("ds_m");
-                scale.setText("D# minor");
+                scale.setText("D#");
             }
         });
 
@@ -133,7 +137,7 @@ public class MyApp extends Application {
             @Override
             public void handle(ActionEvent event) {
                 midi.setScale("e_m");
-                scale.setText("E minor");
+                scale.setText("E");
             }
         });
 
@@ -141,7 +145,7 @@ public class MyApp extends Application {
             @Override
             public void handle(ActionEvent event) {
                 midi.setScale("f_m");
-                scale.setText("F minor");
+                scale.setText("F");
             }
         });
 
@@ -149,7 +153,7 @@ public class MyApp extends Application {
             @Override
             public void handle(ActionEvent event) {
                 midi.setScale("fs_m");
-                scale.setText("F# minor");
+                scale.setText("F#");
             }
         });
 
@@ -157,7 +161,7 @@ public class MyApp extends Application {
             @Override
             public void handle(ActionEvent event) {
                 midi.setScale("g_m");
-                scale.setText("G minor");
+                scale.setText("G");
             }
         });
 
@@ -165,7 +169,7 @@ public class MyApp extends Application {
             @Override
             public void handle(ActionEvent event) {
                 midi.setScale("gs_m");
-                scale.setText("G# minor");
+                scale.setText("G#");
             }
         });
 
@@ -173,7 +177,7 @@ public class MyApp extends Application {
             @Override
             public void handle(ActionEvent event) {
                 midi.setScale("a_m");
-                scale.setText("A minor");
+                scale.setText("A");
             }
         });
 
@@ -181,7 +185,7 @@ public class MyApp extends Application {
             @Override
             public void handle(ActionEvent event) {
                 midi.setScale("as_m");
-                scale.setText("A# minor");
+                scale.setText("A#");
             }
         });
 
@@ -189,37 +193,131 @@ public class MyApp extends Application {
             @Override
             public void handle(ActionEvent event) {
                 midi.setScale("b_m");
-                scale.setText("B minor");
+                scale.setText("B");
             }
         });
 
-        //TODO: ajouter new event on mouse click pour tous avec set scale pour major
 
-        Button invisible = new Button();
-        invisible.setVisible(false);
-        TextArea attention = new TextArea(beware);
+
+        //---------------- Toggle buttons
+        ToggleGroup buttongroup = new ToggleGroup();
+        RadioButton major = new RadioButton("Major");
+        RadioButton minor = new RadioButton("Minor");
+        RadioButton harmonic = new RadioButton("Harmonic Minor");
+
+        major.setToggleGroup(buttongroup);
+        minor.setToggleGroup(buttongroup);
+        harmonic.setToggleGroup(buttongroup);
+
+        major.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                midi.setMmh(0);
+            }
+        });
+
+        minor.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                midi.setMmh(1);
+            }
+        });
+
+        harmonic.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                midi.setMmh(2);
+            }
+        });
+
+
+
+        //-------------- Slider
+
+        Slider slider = new Slider();
+        slider.setMin(10);
+        slider.setMax(200);
+        slider.setValue(120);
+        slider.setShowTickLabels(false);
+        slider.setShowTickMarks(false);
+        slider.setBlockIncrement(1);
+
+        Label tempo = new Label("Tempo :");
+        Label tempoval = new Label(String.valueOf(midi.getTempo()));
+
+        slider.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                midi.setTempo((int) slider.getValue());
+                tempoval.setText(String.valueOf(midi.getTempo()));
+            }
+        });
+
+/*
+        //-------------- Note length
+        Slider notelength = new Slider();
+        notelength.setMin(1/16);
+        notelength.setMax(1/2);
+        notelength.setValue(1/4);
+        notelength.setShowTickLabels(false);
+        notelength.setShowTickMarks(true);
+        notelength.setBlockIncrement(1/16);
+        notelength.isSnapToTicks();
+        notelength.setT
+
+        Label notelen = new Label("Note Length :");
+        Label notelenval = new Label(String.valueOf(midi.getNote_Length()));
+
+        slider.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                midi.setNote_length(notelength.getValue());
+                notelenval.setText(String.valueOf(midi.getNote_Length()));
+            }
+        });
+*/
+        //Colors secondaire
+        //TODO: hyperlink to github
+        //TODO: tempo aussi sur click
+        //TODO: changer text area en label
+
+
+        //------------- Displaying on stage
+
+
+        HBox top = new HBox();
+        VBox left = new VBox();
+        VBox right = new VBox();
+
+        top.getChildren().addAll( scale, length);
+        left.getChildren().addAll(major, minor, harmonic);
+        right.getChildren().addAll(tempo, slider, tempoval);//notelen, notelength, notelenval
+
+
+        Label attention = new Label(beware);
         attention.setPrefHeight(50);
 
         length.setMinSize(80,30);
         scale.setMinSize(80,30);
         length.setMaxSize(80,30);
         scale.setMaxSize(80,30);
-        invisible.setMinSize(80,30);
-        invisible.setMaxSize(80,30);
-
-        //br.setAlignment(length, Pos.TOP_RIGHT);
-        br.setLeft(length);
-
-        br.setRight(invisible);
+        //menuItemam.setStyle("-fx-font: 12 arial; -fx-base: #a4edd2;");
+        scale.setStyle("-fx-font: 12 arial; -fx-base: #a4edd2;");
+        length.setStyle("-fx-font: 12 arial; -fx-base: #a4edd2;");
 
 
-        br.setAlignment(scale, Pos.BOTTOM_LEFT);
-        br.setTop(scale);
+        br.setTop(top);
 
         br.setBottom(attention);
 
+        br.setLeft(left);
+
+        br.setRight(right);
+
         br.setAlignment(music_gen, Pos.CENTER);
         br.setCenter(music_gen);
+
+        //br.setBackground(new Background(new BackgroundFill(Color.AQUAMARINE, CornerRadii.EMPTY, Insets.EMPTY)));
 
 /*
         VBox parent = new VBox();
@@ -254,7 +352,9 @@ public class MyApp extends Application {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try {
+                    midi.ClearMelody();
                     midi.Melody_Gen();//ajouter destination
+                    midi.Playmelody();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -8,7 +8,7 @@ import static java.nio.file.Files.readString;
 
 public abstract class PiReader {
 
-    private static Path filePath = Paths.get("/Users/langletmaxime/Desktop/P4/Music_Gen/pi-million.txt");//changer pour que ce soit dans le bon fichier
+    private static Path filePath = Paths.get("/Users/langletmaxime/Desktop/P4/Music_Gen/pi-million.txt");//TODO: changer pour que ce soit dans le bon fichier
 
     //private Path filePath= Paths.get("/Users/langletmaxime/Desktop/P4/Music_Gen/pi-million.txt");
     private static String pi;
