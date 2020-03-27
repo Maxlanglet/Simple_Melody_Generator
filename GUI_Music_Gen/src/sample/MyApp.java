@@ -5,20 +5,21 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import jm.JMC;
 
-import java.io.File;
+import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 
 //TODO: pretty up code
@@ -34,7 +35,7 @@ public class MyApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         String beware = "Beware, the midi file created will be in the same directory as the application,\n" +
-                " so place the app in your file directory accordingly";
+                "so place the app in your file directory accordingly \n" + "Created by Maxime Langlet, link to Github :";
 
         stage.setTitle("MIDI Generator");
         stage.initStyle(StageStyle.DECORATED);
@@ -278,8 +279,6 @@ public class MyApp extends Application {
 */
         //Colors secondaire
         //TODO: hyperlink to github
-        //TODO: tempo aussi sur click
-        //TODO: changer text area en label
 
 
         //------------- Displaying on stage
@@ -288,14 +287,49 @@ public class MyApp extends Application {
         HBox top = new HBox();
         VBox left = new VBox();
         VBox right = new VBox();
+        VBox bottum = new VBox();
 
         top.getChildren().addAll( scale, length);
         left.getChildren().addAll(major, minor, harmonic);
         right.getChildren().addAll(tempo, slider, tempoval);//notelen, notelength, notelenval
 
 
+        Hyperlink link = new Hyperlink("Github/MaxLanglet");
+        link.setOnAction(e -> {
+            if(Desktop.isDesktopSupported())
+            {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://github.com/Maxlanglet"));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (URISyntaxException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
         Label attention = new Label(beware);
-        attention.setPrefHeight(50);
+        attention.setPrefHeight(70);
+        String jMusic = "I do not own the library used in this project, if you want to download it,\n"+
+                "here's the link to the jMusic library :";
+        Label jMusiclabel = new Label(jMusic);
+        Hyperlink library = new Hyperlink("jMusic library");
+        link.setOnAction(e -> {
+            if(Desktop.isDesktopSupported())
+            {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://explodingart.com/jmusic/GetjMusic.html"));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (URISyntaxException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+        bottum.getChildren().addAll(attention, link, jMusiclabel, library);
+        bottum.setMargin(attention, new Insets(0,0,0,5));
+        bottum.setMargin(link, new Insets(0,0,0,5));
+        bottum.setMargin(jMusiclabel, new Insets(0,0,0,5));
+        bottum.setMargin(library, new Insets(0,0,0,5));
 
         length.setMinSize(80,30);
         scale.setMinSize(80,30);
@@ -304,11 +338,12 @@ public class MyApp extends Application {
         //menuItemam.setStyle("-fx-font: 12 arial; -fx-base: #a4edd2;");
         scale.setStyle("-fx-font: 12 arial; -fx-base: #a4edd2;");
         length.setStyle("-fx-font: 12 arial; -fx-base: #a4edd2;");
+        music_gen.setStyle("-fx-font: 12 arial; -fx-base: #a4edd2;");
 
 
         br.setTop(top);
 
-        br.setBottom(attention);
+        br.setBottom(bottum);
 
         br.setLeft(left);
 
