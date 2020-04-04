@@ -17,7 +17,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" exported="" name="jMusic1.6.5" level="project" />
     <orderEntry type="library" name="lib1" level="project" />
+    <orderEntry type="library" name="jMusic1.6.5" level="project" />
   </component>
 </module>
